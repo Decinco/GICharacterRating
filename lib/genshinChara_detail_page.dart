@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'digimon_model.dart';
+import 'genshinChara_model.dart';
 import 'dart:async';
 
 
-class DigimonDetailPage extends StatefulWidget {
-  final Digimon digimon;
-  const DigimonDetailPage(this.digimon, {super.key});
+class GenshinCharaDetailPage extends StatefulWidget {
+  final GenshinChara genshinChara;
+  const GenshinCharaDetailPage(this.genshinChara, {super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _DigimonDetailPageState createState() => _DigimonDetailPageState();
+  _GenshinCharaDetailPageState createState() => _GenshinCharaDetailPageState();
 }
 
-class _DigimonDetailPageState extends State<DigimonDetailPage> {
-  final double digimonAvarterSize = 150.0;
+class _GenshinCharaDetailPageState extends State<GenshinCharaDetailPage> {
+  final double wishArtSize = 400.0;
   double _sliderValue = 10.0;
 
   Widget get addYourRating {
@@ -58,7 +58,7 @@ class _DigimonDetailPageState extends State<DigimonDetailPage> {
       _ratingErrorDialog();
     } else {
       setState(() {
-        widget.digimon.rating = _sliderValue.toInt();
+        widget.genshinChara.rating = _sliderValue.toInt();
       });
     }
   }
@@ -87,21 +87,21 @@ class _DigimonDetailPageState extends State<DigimonDetailPage> {
     );
   }
 
-  Widget get digimonImage {
+  Widget get genshinCharaImage {
     return Hero(
-      tag: widget.digimon,
+      tag: widget.genshinChara,
       child: Container(
-        height: digimonAvarterSize,
-        width: digimonAvarterSize,
+        height: wishArtSize,
+        width: wishArtSize,
         constraints: const BoxConstraints(),
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            shape: BoxShape.rectangle,
             boxShadow: const [
               BoxShadow(offset: Offset(1.0, 2.0), blurRadius: 2.0, spreadRadius: -1.0, color: Color(0x33000000)),
               BoxShadow(offset: Offset(2.0, 1.0), blurRadius: 3.0, spreadRadius: 0.0, color: Color(0x24000000)),
               BoxShadow(offset: Offset(3.0, 1.0), blurRadius: 4.0, spreadRadius: 2.0, color: Color(0x1f000000))
             ],
-            image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.digimon.imageUrl ?? ""))),
+            image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.genshinChara.fullArtURL ?? ""))),
       ),
     );
   }
@@ -115,12 +115,12 @@ class _DigimonDetailPageState extends State<DigimonDetailPage> {
           size: 40.0,
           color: Colors.black,
         ),
-        Text('${widget.digimon.rating}/10', style: const TextStyle(color: Colors.black, fontSize: 30.0))
+        Text('${widget.genshinChara.rating}/10', style: const TextStyle(color: Colors.black, fontSize: 30.0))
       ],
     );
   }
 
-  Widget get digimonProfile {
+  Widget get genshinCharaProfile {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 32.0),
       decoration: const BoxDecoration(
@@ -129,9 +129,9 @@ class _DigimonDetailPageState extends State<DigimonDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          digimonImage,
-          Text(widget.digimon.name, style: const TextStyle(color: Colors.black, fontSize: 32.0)),
-          Text('${widget.digimon.levelDigimon}', style: const TextStyle(color: Colors.black, fontSize: 20.0)),
+          genshinCharaImage,
+          Text(widget.genshinChara.name, style: const TextStyle(color: Colors.black, fontSize: 32.0)),
+          Text('${widget.genshinChara.weapon}', style: const TextStyle(color: Colors.black, fontSize: 20.0)),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: rating,
@@ -147,10 +147,10 @@ class _DigimonDetailPageState extends State<DigimonDetailPage> {
       backgroundColor: const Color(0xFFABCAED),
       appBar: AppBar(
         backgroundColor: const Color(0xFF0B479E),
-        title: Text('Meet ${widget.digimon.name}'),
+        title: Text('Meet ${widget.genshinChara.name}'),
       ),
       body: ListView(
-        children: <Widget>[digimonProfile, addYourRating],
+        children: <Widget>[genshinCharaProfile, addYourRating],
       ),
     );
   }

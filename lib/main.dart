@@ -1,8 +1,9 @@
+import 'package:digimon/genshinChara_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'digimon_model.dart';
-import 'digimon_list.dart';
-import 'new_digimon_form.dart';
+import 'genshinChara_list.dart';
+import 'new_character_form.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,10 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My fav Digimons',
+      title: 'Genshin Impact Characters',
       theme: ThemeData(brightness: Brightness.dark),
       home: const MyHomePage(
-        title: 'My fav Digimons',
+        title: 'Genshin Impact Characters',
       ),
     );
   }
@@ -28,18 +29,28 @@ class MyHomePage extends StatefulWidget {
   @override
   // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
+
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Digimon> initialDigimons = [Digimon('Gatomon'), Digimon('Gomamon'), Digimon('Leomon')];
+  List<GenshinChara> initialCharacters = [
+    GenshinChara('Eula'),
+    GenshinChara('Baizhu'),
+    GenshinChara('Yoimiya'),
+    GenshinChara('Cyno'),
+    GenshinChara('Navia'),
+    GenshinChara('Kinich')
+  ];
 
-  Future _showNewDigimonForm() async {
-    Digimon newDigimon = await Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-      return const AddDigimonFormPage();
-    }));
+  Future _showNewCharacterForm() async {
+    GenshinChara newCharacter = await Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                AddCharacterFormPage(initialCharacters: initialCharacters)));
     //print(newDigimon);
-    initialDigimons.add(newDigimon);
-      setState(() {});
+    initialCharacters.add(newCharacter);
+    setState(() {});
   }
 
   @override
@@ -48,20 +59,31 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text(widget.title, style: const TextStyle(color: Colors.white)),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF0B479E),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _showNewDigimonForm,
+        leading: IconButton(
+            onPressed: _showNewCharacterForm,
+            icon: const Icon(
+              Icons.add,
+              color: Color.fromARGB(255, 255, 255, 255),
+              size: 30,
+            )),
+        title: const Text(
+          "Genshin Impact Characters",
+          style: TextStyle(
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFF114A8C), Color(0xFF072E5D)], stops: [0, 0.75])
+          ),
+        ),
       ),
       body: Container(
-          color: const Color.fromARGB(255, 88, 111, 137),
+          color: Colors.black,
           child: Center(
-            child: DigimonList(initialDigimons),
+            child: GenshinCharaList(initialCharacters),
           )),
     );
   }
