@@ -1,7 +1,6 @@
 import 'package:digimon/genshinChara_card.dart';
 import 'package:digimon/genshinChara_model.dart';
 import 'package:flutter/material.dart';
-import 'digimon_model.dart';
 
 class GenshinCharaList extends StatelessWidget {
   final List<GenshinChara> characters;
@@ -17,7 +16,7 @@ class GenshinCharaList extends StatelessWidget {
       itemCount: characters.length,
       // ignore: avoid_types_as_parameter_names
       itemBuilder: (context, int) {
-        return GenshinCharaCard(characters[int]);
+        return GenshinCharaCard(characters[int], GICardStyles.list);
       },
     );
   }

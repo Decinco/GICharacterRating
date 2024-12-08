@@ -1,7 +1,6 @@
 import 'package:digimon/genshinChara_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'digimon_model.dart';
 import 'genshinChara_list.dart';
 import 'new_character_form.dart';
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
+import 'package:digimon/genshinChara_card.dart';
 import 'package:digimon/genshinChara_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -21,8 +22,9 @@ class AddCharacterFormPage extends StatefulWidget {
 
 class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
   TextEditingController nameController = TextEditingController();
-  var _formKey = GlobalKey<FormBuilderState>();
+  final _formKey = GlobalKey<FormBuilderState>();
   Future<List<String>>? characters;
+  GenshinChara selectedCharacterModel = GenshinChara("N/A");
 
   @override
   void initState() {
@@ -31,17 +33,27 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
     characters = findAllUnusedCharacters();
   }
 
-
-
-  void submitPup(BuildContext context) {
+  void submitChar(BuildContext context) {
     if (_formKey.currentState!.saveAndValidate()) {
-      var newCharacter = GenshinChara(_formKey.currentState!.value['selectedChar']);
-      Navigator.of(context).pop(newCharacter);
+      Navigator.of(context).pop(selectedCharacterModel);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.redAccent,
-        content: Text('That character doesn\'t exist!'),
+        backgroundColor: Color.fromRGBO(209, 32, 32, 1),
+        content: Text(
+          'That character doesn\'t exist!',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ));
+    }
+  }
+
+  void selectChar() {
+    if (_formKey.currentState!.saveAndValidate()) {
+      setState(() {
+        selectedCharacterModel.name =
+            _formKey.currentState!.value['selectedChar'];
+        selectedCharacterModel.findData();
+      });
     }
   }
 
@@ -70,21 +82,32 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
       }
     }
 
-    print(availableCharacters);
-
     return availableCharacters;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add a new character'),
-          backgroundColor: const Color(0xFF0B479E),
+          title: const Text(
+            "Add New Character",
+            style: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xFF114A8C), Color(0xFF072E5D)],
+                    stops: [0, 0.75])),
+          ),
         ),
         body: Container(
-          color: const Color(0xFFABCAED),
+          color: const Color.fromARGB(255, 0, 0, 0),
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
@@ -95,7 +118,8 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: FutureBuilder<List<String>>(
                         future: characters,
-                        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<String>> snapshot) {
                           if (!snapshot.hasData) {
                             // while data is loading:
                             return const Center(
@@ -105,11 +129,14 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
                             final characters = snapshot.data;
                             return FormBuilderTypeAhead<String>(
                                 name: 'selectedChar',
-                                decoration:
-                                const InputDecoration(
-                                    label: Text("Enter your character")),
+                                decoration: const InputDecoration(
+                                    label: Text("Enter your character"),
+                                    focusColor: Color(0xFF114A8C)),
                                 itemBuilder: (context, character) {
                                   return ListTile(title: Text(character));
+                                },
+                                onChanged: (val) {
+                                  selectChar(); // Selecciona el personaje en su tarjeta
                                 },
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.containsElement(
@@ -131,11 +158,20 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
                           }
                         })),
                 Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: GenshinCharaCard(
+                        selectedCharacterModel, GICardStyles.large)),
+                Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Builder(
                     builder: (context) {
                       return ElevatedButton(
-                        onPressed: () => submitPup(context),
+                        onPressed: () => submitChar(context),
+                        style: const ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll<Color>(
+                                Color(0xFF114A8C)),
+                            foregroundColor:
+                                WidgetStatePropertyAll<Color>(Colors.white)),
                         child: const Text('Submit Character'),
                       );
                     },

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:json_path/json_path.dart'; // Búsqueda avanzada dentro de un JSON, similar a XPath
 
 enum WeaponType {
@@ -50,7 +49,7 @@ enum CharElement {
 
 
 class GenshinChara {
-  final String name;
+  String name;
 
   String? weapon;
   String? region;
@@ -86,8 +85,6 @@ class GenshinChara {
 
       Map<String, dynamic> data = json.decode(responseBody);
 
-      print("a");
-
       weapon = WeaponType.values.byName(data["data"]["weaponType"]).display;
       region = Region.values.byName(data["data"]["region"]).display;
       element = CharElement.values.byName(data["data"]["element"]).display;
@@ -103,9 +100,8 @@ class GenshinChara {
       iconURL = Uri.https('gi.yatta.moe', '/assets/UI/UI_AvatarIcon_$internalMediaName.png').toString();
       fullArtURL = Uri.https('gi.yatta.moe', '/assets/UI/UI_Gacha_AvatarImg_$internalMediaName.png').toString();
 
-      //print(levelDigimon);
     } catch (exception) {
-      print(exception);
+      //print(exception);
     }
   }
 
@@ -125,10 +121,8 @@ class GenshinChara {
       var charID = responseProcessor.readValues(data).toList()[0];
 
       return charID;
-
-      //print(levelDigimon);
     } catch (exception) {
-      print(exception);
+      //print(exception);
     }
   }
 }
