@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFF114A8C), Color(0xFF072E5D)], stops: [0, 0.75])
           ),
         ),
+
       ),
       body: Container(
           color: Colors.black,
