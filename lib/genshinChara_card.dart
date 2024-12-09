@@ -228,7 +228,7 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
                       children: [
                         Padding(
                             padding: const EdgeInsets.all(10),
-                            child: GenshinCharaPortrait(genshinChara: genshinChara,)), // Classe que dibuja el icono frontal del personaje
+                            child: GenshinCharaPortrait(genshinChara: genshinChara, style: GIPortraitStyle.colorful,)), // Classe que dibuja el icono frontal del personaje
                         Flexible(
                             child: Align(
                           alignment: const AlignmentDirectional(-1, 0),

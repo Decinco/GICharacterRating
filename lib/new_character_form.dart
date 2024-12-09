@@ -131,7 +131,8 @@ class _AddCharacterFormPageState extends State<AddCharacterFormPage> {
                                 name: 'selectedChar',
                                 decoration: const InputDecoration(
                                     label: Text("Enter your character"),
-                                    focusColor: Color(0xFF114A8C)),
+                                    focusColor: Color(0xFF114A8C),
+                                    hoverColor: Color(0xFF114A8C)),
                                 itemBuilder: (context, character) {
                                   return ListTile(title: Text(character));
                                 },
