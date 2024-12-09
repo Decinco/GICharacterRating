@@ -40,10 +40,11 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
   }
 
   showGenshinCharaDetailPage() {
-    if (widget.styleType == GICardStyles.list){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return GenshinCharaDetailPage(genshinChara);
-    }));}
+    if (widget.styleType == GICardStyles.list) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return GenshinCharaDetailPage(genshinChara);
+      }));
+    }
   }
 
   String _regionImageLink(String? region) {
@@ -123,7 +124,7 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
         break;
       default:
         color1 = const Color.fromARGB(255, 84, 110, 122);
-        color2 = Colors.black54;
+        color2 = const Color.fromARGB(255, 34, 34, 34);
         break;
     }
 
@@ -135,13 +136,15 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
                 colors: [color1, color2],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight)),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-          child: Text(
-            genshinChara.name,
-            style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
-          ),
-        ));
+        child: Align(
+            alignment: const Alignment(-1, 0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 1, 0, 1),
+              child: Text(
+                genshinChara.name,
+                style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+              ),
+            )));
   }
 
   Widget _additionalDetail() {
@@ -163,20 +166,19 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
       );
     } else {
       returnedWidget = const Align(
-        alignment: AlignmentDirectional(1, 0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-              child: Text(
-                "Brand New!",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-      );
+          alignment: Alignment(1, 1),
+          child: Padding(
+            padding: EdgeInsets.only(right: 5),
+            child: SizedBox(
+                height: 25,
+                child: Align(
+                  alignment: Alignment(1, 0),
+                  child: Text(
+                    "Brand New!",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                )),
+          ));
     }
 
     return returnedWidget;
@@ -228,7 +230,10 @@ class _GenshinCharaCardState extends State<GenshinCharaCard> {
                       children: [
                         Padding(
                             padding: const EdgeInsets.all(10),
-                            child: GenshinCharaPortrait(genshinChara: genshinChara, style: GIPortraitStyle.colorful,)), // Classe que dibuja el icono frontal del personaje
+                            child: GenshinCharaPortrait(
+                              genshinChara: genshinChara,
+                              style: GIPortraitStyle.colorful,
+                            )), // Classe que dibuja el icono frontal del personaje
                         Flexible(
                             child: Align(
                           alignment: const AlignmentDirectional(-1, 0),
